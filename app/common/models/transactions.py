@@ -36,7 +36,7 @@ class Transaction(Base):
     # Transaction tracking
     reference_id = Column(String, unique=True, index=True, default=lambda: f"TXN-{uuid.uuid4().hex[:12].upper()}")
     description = Column(Text, nullable=True)
-    metadata = Column(Text, nullable=True)  # For storing JSON data
+    transaction_metadata = Column(Text, nullable=True)  # For storing JSON data, renamed from 'metadata'
     
     # Timestamps
     created_at = Column(DateTime, default=datetime.utcnow)

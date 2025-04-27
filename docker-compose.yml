@@ -83,8 +83,9 @@ services:
       - REDIS_HOST=redis
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
       - ENVIRONMENT=development
+      - PYTHONPATH=/app
     volumes:
-      - ./app:/app
+      - ./:/app
     command: uvicorn app.api_gateway.main:app --host 0.0.0.0 --port 8000 --reload
 
   auth_service:
@@ -102,8 +103,9 @@ services:
       - REDIS_HOST=redis
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
       - ENVIRONMENT=development
+      - PYTHONPATH=/app
     volumes:
-      - ./app:/app
+      - ./:/app
     command: uvicorn app.auth_service.main:app --host 0.0.0.0 --port 8001 --reload
 
   account_service:
@@ -121,8 +123,9 @@ services:
       - REDIS_HOST=redis
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
       - ENVIRONMENT=development
+      - PYTHONPATH=/app
     volumes:
-      - ./app:/app
+      - ./:/app
     command: uvicorn app.account_service.main:app --host 0.0.0.0 --port 8002 --reload
 
   transaction_service:
@@ -140,8 +143,9 @@ services:
       - REDIS_HOST=redis
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
       - ENVIRONMENT=development
+      - PYTHONPATH=/app
     volumes:
-      - ./app:/app
+      - ./:/app
     command: uvicorn app.transaction_service.main:app --host 0.0.0.0 --port 8003 --reload
 
   notification_service:
@@ -156,8 +160,9 @@ services:
       - REDIS_HOST=redis
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
       - ENVIRONMENT=development
+      - PYTHONPATH=/app
     volumes:
-      - ./app:/app
+      - ./:/app
     command: python -m app.notification_service.main
 
 volumes:

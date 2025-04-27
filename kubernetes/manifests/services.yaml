@@ -1,0 +1,65 @@
+---
+# API Gateway Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-gateway
+  namespace: payment-system
+  labels:
+    app: api-gateway
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8000
+    targetPort: 8000
+    name: http
+  selector:
+    app: api-gateway
+---
+# Auth Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+  namespace: payment-system
+  labels:
+    app: auth-service
+spec:
+  ports:
+  - port: 8001
+    targetPort: 8001
+    name: http
+  selector:
+    app: auth-service
+---
+# Account Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: account-service
+  namespace: payment-system
+  labels:
+    app: account-service
+spec:
+  ports:
+  - port: 8002
+    targetPort: 8002
+    name: http
+  selector:
+    app: account-service
+---
+# Transaction Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: transaction-service
+  namespace: payment-system
+  labels:
+    app: transaction-service
+spec:
+  ports:
+  - port: 8003
+    targetPort: 8003
+    name: http
+  selector:
+    app: transaction-service 

@@ -23,7 +23,7 @@ class TransactionBase(BaseModel):
     currency: str = Field(default="USD", regex=r"^[A-Z]{3}$")
     transaction_type: TransactionType = TransactionType.TRANSFER
     description: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
+    transaction_metadata: Optional[Dict[str, Any]] = None
 
 class TransactionCreate(TransactionBase):
     """Schema for creating a new transaction."""
@@ -34,7 +34,7 @@ class TransactionUpdate(BaseModel):
     """Schema for updating a transaction."""
     status: Optional[TransactionStatus] = None
     description: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
+    transaction_metadata: Optional[Dict[str, Any]] = None
     
     class Config:
         orm_mode = True
@@ -55,9 +55,9 @@ class TransactionInDB(TransactionBase):
     class Config:
         orm_mode = True
         
-    @validator('metadata', pre=True)
+    @validator('transaction_metadata', pre=True)
     def parse_metadata(cls, v):
-        """Parse metadata JSON if it's a string."""
+        """Parse transaction_metadata JSON if it's a string."""
         if isinstance(v, str):
             try:
                 return json.loads(v)
@@ -81,4 +81,4 @@ class PaymentRequest(BaseModel):
     amount: float = Field(..., gt=0)
     currency: str = Field(default="USD", regex=r"^[A-Z]{3}$")
     description: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None 
+    transaction_metadata: Optional[Dict[str, Any]] = None 

@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: payment-system-config
+  namespace: payment-system
+data:
+  # Environment configuration
+  ENVIRONMENT: "production"
+  
+  # Database configuration
+  DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/payment_system"
+  ASYNC_DATABASE_URL: "postgresql+asyncpg://postgres:postgres@postgres:5432/payment_system"
+  
+  # Redis configuration
+  REDIS_HOST: "redis"
+  REDIS_PORT: "6379"
+  
+  # Kafka configuration
+  KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
+  KAFKA_TOPIC_TRANSACTIONS: "transactions"
+  KAFKA_TOPIC_NOTIFICATIONS: "notifications"
+  
+  # Service URLs
+  AUTH_SERVICE_URL: "http://auth-service:8001"
+  ACCOUNT_SERVICE_URL: "http://account-service:8002"
+  TRANSACTION_SERVICE_URL: "http://transaction-service:8003"
+  
+  # Rate limiting
+  RATE_LIMIT_WINDOW_SECONDS: "60"
+  RATE_LIMIT_MAX_REQUESTS: "100"
+  
+  # Logging
+  LOG_LEVEL: "INFO"
+  
+  # Admin user
+  ADMIN_PASSWORD: "Admin123!" 
