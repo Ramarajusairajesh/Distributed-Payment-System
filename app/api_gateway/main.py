@@ -1,6 +1,21 @@
+# Copyright 2023 Distributed Payment System
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import logging
 import os
 import httpx
+import json
 from typing import Dict, Any, Optional, List
 
 from fastapi import FastAPI, Depends, HTTPException, status, Request, Header
@@ -190,8 +205,19 @@ async def proxy_request(request: Request, target_url: str):
     
     # Get request body for POST/PUT
     body = None
+    form_data = None
+    
     if method in ["post", "put", "patch"]:
-        body = await request.json()
+        content_type = request.headers.get("content-type", "")
+        if "application/x-www-form-urlencoded" in content_type:
+            form_data = await request.form()
+            form_data = dict(form_data)
+        else:
+            try:
+                body = await request.json()
+            except json.JSONDecodeError:
+                # If not JSON, try to get raw body
+                body = await request.body()
     
     try:
         async with httpx.AsyncClient() as client:
@@ -199,7 +225,10 @@ async def proxy_request(request: Request, target_url: str):
             if method == "get":
                 response = await client.get(target_url, headers=headers)
             elif method == "post":
-                response = await client.post(target_url, json=body, headers=headers)
+                if form_data:
+                    response = await client.post(target_url, data=form_data, headers=headers)
+                else:
+                    response = await client.post(target_url, json=body, headers=headers)
             elif method == "put":
                 response = await client.put(target_url, json=body, headers=headers)
             elif method == "delete":

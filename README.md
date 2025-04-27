@@ -67,4 +67,4 @@ pytest tests/unit/common/schemas/test_transactions.py
 For more detailed testing information, see `docs/testing.md`.
 
 ## License
-MIT
+Apache License 2.0. See [LICENSE](LICENSE) file for details.

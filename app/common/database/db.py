@@ -1,3 +1,17 @@
+# Copyright 2023 Distributed Payment System
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -26,10 +40,22 @@ AsyncSessionLocal = sessionmaker(
 # Base class for models
 Base = declarative_base()
 
-@contextmanager
+# Modified to work with FastAPI's dependency injection
 def get_db() -> Generator:
     """
-    Synchronous database session generator.
+    Synchronous database session generator for FastAPI dependency injection.
+    """
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+# Keep the context manager version for other use cases
+@contextmanager
+def get_db_context() -> Generator:
+    """
+    Synchronous database session context manager.
     """
     db = SessionLocal()
     try:
@@ -45,4 +71,5 @@ async def get_async_db() -> AsyncGenerator:
         try:
             yield session
         finally:
+            await session.close() 
             await session.close() 

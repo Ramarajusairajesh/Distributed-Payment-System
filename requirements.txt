@@ -20,4 +20,5 @@ prometheus-fastapi-instrumentator==6.1.0
 kubernetes==27.2.0
 gunicorn==21.2.0
 structlog==23.1.0
-ujson==5.8.0 
+ujson==5.8.0
+email-validator==2.0.0 

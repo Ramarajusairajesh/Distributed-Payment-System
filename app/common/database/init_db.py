@@ -1,6 +1,6 @@
 import logging
 from sqlalchemy.exc import SQLAlchemyError
-from app.common.database.db import engine, Base
+from app.common.database.db import engine, Base, get_db_context
 from app.common.models.users import User
 from app.common.models.accounts import Account, AccountType, AccountStatus
 from app.common.models.transactions import Transaction, TransactionStatus, TransactionType
@@ -25,10 +25,8 @@ def create_superuser():
     """
     Create a superuser if no users exist in the database.
     """
-    from sqlalchemy.orm import Session
-    
     try:
-        with Session(engine) as db:
+        with get_db_context() as db:
             # Check if any users exist
             user_count = db.query(User).count()
             
