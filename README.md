@@ -29,6 +29,30 @@ The system follows a microservice architecture with the following components:
 - **Service Mesh**: Istio for advanced networking features
 - **Monitoring**: Prometheus and Grafana
 
+## Prerequisites
+Before running the application, ensure you have the following installed:
+- Docker
+- Docker Compose
+
+## Getting Started
+To run the entire distributed payment system locally using Docker Compose, follow these steps:
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/your-repo/distributed-payment-system.git
+    cd distributed-payment-system
+    ```
+
+2.  **Start the services:**
+    This command will build the necessary Docker images and start all services defined in `docker-compose.yml`.
+    ```bash
+    docker-compose up --build
+    ```
+
+3.  **Access the application:**
+    Once all services are up and running, you can access the API Gateway at `http://localhost:8000`.
+    The API documentation will be available at `http://localhost:8000/docs`.
+
 ## Documentation
 - **Installation Guide**: See `docs/installation.md` for setup instructions
 - **API Documentation**: Available at `docs/api.md` or at `/docs` when the server is running
